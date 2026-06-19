@@ -54,7 +54,7 @@ def run_nmap_scan(target, ports, scan_type):
         # Handle Nmap specific errors (e.g., permission, host down)
         print(f"\n[ERROR] Nmap execution failed with return code {e.returncode}:")
         if "requires root privileges" in e.stderr:
-            print("  --> Permission Denied: Run the script using 'sudo python3 script_name.py ...'")
+            print("  --> Permission Denied: Run the script using 'sudo python3 nmapper.py ...'")
         else:
             print(e.stderr)
     except FileNotFoundError:
@@ -98,7 +98,7 @@ Default is -sS.
             # Check if running as root
             if not subprocess.run(['id', '-u'], capture_output=True, text=True, check=True).stdout.strip() == '0':
                 print(f"[WARNING] Using scan type '{args.type}' often requires root privileges.")
-                print("         Consider running the script with 'sudo python3 script_name.py ...'")
+                print("         Consider running the script with 'sudo python3 nmapper.py ...'")
         except:
             pass # Ignore if 'id' command fails
             
