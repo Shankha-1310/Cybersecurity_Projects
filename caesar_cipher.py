@@ -6,6 +6,16 @@ CHARACTER_SET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!
 SET_SIZE = len(CHARACTER_SET)
 
 def encrypt(plaintext, key):
+    """
+    Encrypts the given plaintext using the Caesar cipher.
+    
+    Args:
+        plaintext (str): The text to encrypt.
+        key (int): The shift key.
+    
+    Returns:
+        str: The encrypted text.
+    """
     ciphertext = ""
     # Ensure the key is within the bounds of the character set size
     # This handles large positive and negative keys
@@ -23,13 +33,23 @@ def encrypt(plaintext, key):
             encrypted_char = CHARACTER_SET[new_index]
             ciphertext += encrypted_char
         else:
-            # If the character is not in the set, append it as is (optional, 
-            # but good for handling extremely rare or non-standard characters)
+            # If the character is not in the set, append it as is
+            # Good for handling extremely rare or non-standard characters
             ciphertext += char
 
     return ciphertext
 
 def decrypt(ciphertext, key):
+    """
+    Decrypts the given ciphertext using the Caesar cipher.
+    
+    Args:
+        ciphertext (str): The text to decrypt.
+        key (int): The shift key used for encryption.
+    
+    Returns:
+        str: The decrypted text.
+    """
     decryption_key = -key
     # Reuse the encrypt function with the negative key
     plaintext = encrypt(ciphertext, decryption_key)
@@ -43,7 +63,7 @@ def main():
     print("-" * 30)
 
     while True:
-        mode = input("Do you want to (E)encrypt or (D)decrypt? (E/D): ").upper()
+        mode = input("Do you want to (E)ncrypt or (D)ecrypt? (E/D): ").upper()
         if mode in ['E', 'D']:
             break
         print("Invalid choice. Please enter 'E' for Encrypt or 'D' for Decrypt.")
@@ -71,3 +91,5 @@ def main():
     print("Operation complete.")
 
 
+if __name__ == "__main__":
+    main()
