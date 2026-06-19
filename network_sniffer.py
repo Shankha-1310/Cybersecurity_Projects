@@ -28,13 +28,16 @@ def print_packet_info(packet):
         print(f"  Destination IP: {packet[scapy.IP].dst}")
     else:
         print("  No IP layer found in the packet")
+    
     if packet.haslayer(scapy.Ether):
-        print(f"  Protocol: {packet[scapy.Ether].type}")
+        print(f"  Source MAC: {packet[scapy.Ether].src}")
         print(f"  Destination MAC: {packet[scapy.Ether].dst}")
+        print(f"  Protocol: {packet[scapy.Ether].type}")
+    
     if packet.haslayer(scapy.TCP):
         print(f"  Source Port: {packet[scapy.TCP].sport}")
         print(f"  Destination Port: {packet[scapy.TCP].dport}")
-    print(f"  Protocol: {packet[scapy.Ether].type}")
+    
     print(f"  Length: {len(packet)} bytes")
 
 def print_http_info(packet):
@@ -59,9 +62,15 @@ def print_http_info(packet):
                 http_data = packet[scapy.Raw].load
                 if b"GET" in http_data or b"POST" in http_data:
                     print("  HTTP Request:")
-                    print(f"    {http_data.decode('utf-8')}")
+                    try:
+                        print(f"    {http_data.decode('utf-8')}")
+                    except UnicodeDecodeError:
+                        print(f"    {http_data}")
 
 def main():
+    """
+    Main function to capture and display network packets.
+    """
     interface = "eth0"  # change to your desired interface
     count = 10  # change to your desired packet count
 
@@ -74,4 +83,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
